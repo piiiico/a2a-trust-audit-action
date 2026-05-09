@@ -5,6 +5,25 @@ Audit your A2A agent card across **L1–L4 trust dimensions** on every PR. Catch
 [![Marketplace](https://img.shields.io/badge/GitHub_Marketplace-A2A_Trust_Audit-2188ff?logo=github)](https://github.com/marketplace/actions/a2a-trust-audit)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Rubric](https://img.shields.io/badge/rubric-22_checks-555)](https://github.com/piiiico/a2a-trust-audit/blob/main/RUBRIC.md)
+[![A2A Trust](https://agentlair.dev/badge/a2a/aHR0cHM6Ly9hZ2VudGxhaXIuZGV2Ly53ZWxsLWtub3duL2FnZW50Lmpzb24)](https://agentlair.dev/blog/a2a-trust-leaderboard-may-2026/)
+
+## Get a badge
+
+Embed a live trust grade in your README — no CI required:
+
+```md
+![A2A Trust](https://agentlair.dev/badge/a2a/<base64url-of-card-url>)
+```
+
+Encode your card URL:
+
+```bash
+echo -n 'https://your-agent.example.com/.well-known/agent.json' | base64 | tr -d '=' | tr '/+' '_-'
+```
+
+Paste the output into the badge URL. The badge re-audits hourly.
+
+---
 
 The A2A protocol has standards for identity (L1) and authorization (L3). It has nothing for **behavioral trust** (L4). This action grades your card on all four layers — including the one nobody else checks — and posts the result back to the PR that changed it.
 
