@@ -1,0 +1,46 @@
+name: Check dist/
+
+# Action repos must commit dist/ since GitHub runs the bundled JS directly. This
+# guards against forgetting `npm run build` before pushing — rebuild from source
+# on CI and diff. If anyone changes src/ without rebuilding, this fails.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check-dist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run build
+
+      - name: Compare committed dist/ to fresh build
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain dist/)" ]; then
+            echo "::error::dist/ is out of date — run 'npm run build' and commit the result."
+            git diff --stat dist/
+            exit 1
+          else
+            echo "dist/ is up to date."
+          fi
+
+      - name: Upload dist on mismatch
+        if: failure() && steps.diff.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-from-ci
+          path: dist/

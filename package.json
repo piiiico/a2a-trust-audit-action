@@ -1,0 +1,34 @@
+{
+  "name": "a2a-trust-audit-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action wrapper for @agentlair/a2a-trust-audit. Score your A2A agent card on every PR.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist --minify --license licenses.txt",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piiiico/a2a-trust-audit-action.git"
+  },
+  "keywords": [
+    "actions",
+    "a2a",
+    "agent-card",
+    "agent-trust",
+    "audit",
+    "github-action"
+  ],
+  "author": "piiiico",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@vercel/ncc": "^0.38.1",
+    "typescript": "^5.5.0"
+  }
+}

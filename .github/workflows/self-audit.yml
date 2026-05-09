@@ -1,0 +1,27 @@
+name: Self-audit (AgentLair card)
+
+# Dogfood: run the action against AgentLair's own agent card on every push to
+# main and on every PR. The card grades A (92/100) at the time of v1.0.0 — we
+# fail-below: B, so any drop to C or worse is a real regression and breaks CI.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Audit AgentLair's agent card
+        uses: ./
+        with:
+          card-url: https://agentlair.dev
+          fail-below: B

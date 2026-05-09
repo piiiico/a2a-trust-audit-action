@@ -1,0 +1,38 @@
+name: 'A2A Trust Audit'
+description: 'Audit your A2A agent card across L1-L4 trust dimensions on every PR. Identity, auth, authorization, behavioral trust.'
+author: 'piiiico'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  card-url:
+    description: 'URL to audit (e.g. https://your-agent.example.com or a direct path to the card JSON). The action probes /.well-known/agent-card.json and /.well-known/agent.json automatically.'
+    required: true
+  fail-below:
+    description: 'Minimum acceptable grade (A, B, C, D, F). Action fails if the audit grade is below this. Default: F (never fail).'
+    required: false
+    default: 'F'
+  comment-on-pr:
+    description: 'Post audit summary as a PR comment when the workflow runs on a pull_request event. Updates an existing bot comment in place. Default: true.'
+    required: false
+    default: 'true'
+  github-token:
+    description: 'Token used to post PR comments. Defaults to GITHUB_TOKEN with pull-requests: write permission.'
+    required: false
+    default: ${{ github.token }}
+outputs:
+  grade:
+    description: 'Audit grade (A, B, C, D, F).'
+  score:
+    description: 'Overall score (0-100).'
+  l1:
+    description: 'L1 Identity score (0-100).'
+  l2:
+    description: 'L2 Authentication score (0-100).'
+  l3:
+    description: 'L3 Authorization score (0-100).'
+  l4:
+    description: 'L4 Behavioral Trust score (0-100).'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
